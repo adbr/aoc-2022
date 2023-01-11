@@ -1,0 +1,5 @@
+project Day07 is
+   for Main use ("day07.adb");
+   for Object_Dir use "obj";
+   for Exec_Dir use "bin";
+end Day07;

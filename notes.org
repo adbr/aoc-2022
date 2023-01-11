@@ -1,0 +1,678 @@
+[2022-12-01 Thu]
+
+https://adventofcode.com/2022
+
+* STARTED aoc 2022 [7/25]
+  SCHEDULED: <2022-12-01 Thu>
+  :PROPERTIES:
+  :CATEGORY: aoc2022
+  :END:
+  :LOGBOOK:
+  - State "STARTED"    from "TODO"       [2022-12-01 Thu 22:56]
+  :END:
+
+Różne notatki związane z programami AoC w języku Ada.
+
+** DONE day 01 [2/2]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2022-12-01 Thu 22:56]
+   :END:
+   <2022-12-01 Thu>
+
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-01 Thu 22:16]
+    :END:
+
+Find the Elf carrying the most Calories. How many total Calories is
+that Elf carrying?
+
+- czytanie liczb z pliku tekstowego
+  - własny typ całkowity Calories_Type i własna instancja pakietu
+    Ada.Text_IO.Integer_IO dla tego typu, dla czytania wartości tego
+    typu
+  - czytanie liczba po liczbie i sumowanie ich
+    - Skip_Line - pomijanie końca wiersza
+- wykrywanie pustego wiersza, nowego wiersza
+  - End_Of_Line
+  - w Adzie koniec wiersza nie jest traktowany jako zwykły znak (jak
+    to jest w C, gdzie koniec wiersza to znak '\n') - powodem jest
+    chyba to, że w różnych systemach koniec wiersza jest różnie
+    zaznaczany - różnymi znakami
+  - do wykrywania końca wiersza jest używana funkcja End_Of_Line,
+    analogicznie jak wykrywanie końca pliku End_Of_File
+- pusty wiersz jest końcem grupy liczb
+- zapamiętywanie największej wartości
+
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-01 Thu 22:45]
+    :END:
+
+Find the top three Elves carrying the most Calories. How many Calories
+are those Elves carrying in total?
+
+- trzy zmienne dla trzech największych wartości sum kalorii
+- przypisanie nowej wartości powoduje przypisanie aktualnej wartości
+  do zmiennej mniejszej
+
+** DONE day 02 [2/2]
+   :LOGBOOK:
+   - State "DONE"       from "STARTED"    [2022-12-04 Sun 23:14]
+   - State "STARTED"    from "TODO"       [2022-12-02 Fri 23:18]
+   :END:
+   <2022-12-02 Fri>
+
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-02 Fri 23:17]
+    :END:
+
+gra w kamień-papier-nożyczki
+
+What would your total score be if everything goes exactly according to
+your strategy guide?
+
+- game
+  - round
+    - outcome
+- shape
+- encrypted strategy guide
+- total score
+- score of the round
+  1. selected shape (shape score)
+     - Rock: 1
+     - Paper: 2
+     - Scissors: 3
+  2. outcome of the round (outcome score)
+     - Lost: 0
+     - Draw: 3
+     - Win: 6
+
+- opponent
+- self
+
+- pomocne było zdefiniowanie typów z dziedziny problemu:
+: type Shape_Type is (Rock, Paper, Scissors);
+: type Round_Type is record
+:    Player1 : Shape_Type; -- opponent
+:    Player2 : Shape_Type; -- self
+: end record;
+: type Outcome_Type is (Lose, Draw, Win); -- outcome for self
+
+- mapowanie ruchów na wynik jest zrealizowany przez tablicę
+  dwuwymiarową - Shape_Type, Shape_Type => Outcome_Type
+
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-04 Sun 23:13]
+    :END:
+
+Following the Elf's instructions for the second column, what would
+your total score be if everything goes exactly according to your
+strategy guide?
+
+"Anyway, the second column says how the round needs to end: X means
+you need to lose, Y means you need to end the round in a draw, and Z
+means you need to win. Good luck!"
+
+- X: need to Lose
+- Y: need to Draw
+- Z: need to Win
+
+- znaleźć ruch (shape) taki żeby uzyskać wskazany wynik
+- tablica dwuwymiarowa mapująca ruch przeciwnika i pożądany wynik na
+  mój ruch (Shape_Type, Outcome_Type => Shape_Type)
+
+** DONE day 03 [2/2]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2022-12-06 Tue 16:45]
+   :END:
+   <2022-12-03 Sat>
+
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-05 Mon 20:17]
+    :END:
+
+Day 3: Rucksack Reorganization
+
+Find the item type that appears in both compartments of each rucksack.
+What is the sum of the priorities of those item types?
+
+- rucksack (plecak)
+- compartments (przegródka, przedział)
+- item
+- item type
+- 2 compartments
+- All items of a given type are meant to go into exactly one of the
+  two compartments
+- finding the errors
+- list of all of the items currently in each rucksack (input)
+- item type jest identyfikowany przez literę (a i A to różne typy)
+- wiersz: list of items dla jednego plecaka
+- pierwsza połowa wiersza to items w pierwszej przegródce, a druga
+  połowa wiersza to items w drugiej przegródce
+
+- znaleźć items występujące w obu przegródkach
+- dla każdego item type nadać priorytet
+
+: Lowercase item types a through z have priorities 1 through 26.
+: Uppercase item types A through Z have priorities 27 through 52.
+
+- suma priorytetów dla elemetów, które występują w obu przegródkach
+
+- string slice
+  - List'First -- pierwszy indeks stringu List
+  - List'Last
+  - List'Length
+- iterowanie po stringach (for C of Str)
+- przeszukiwanie stringu
+- użycie Unbounded_String jako dynamiczna lista znaków (Append -
+  dodawanie elementów)
+- mapowanie znaków na liczby (priorities) - case z range
+- odejmowanie kodów znaków (Character'Pos) dla obliczenia numeru znaku
+  w zakresie
+
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-06 Tue 16:44]
+    :END:
+
+Find the item type that corresponds to the badges of each three-Elf
+group. What is the sum of the priorities of those item types?
+
+- grupy po trzy plecaki - 3 sąsiednie wiersze
+- badge (plakietka) grupy jest taka jak item, który występuje we
+  wszystkich 3 plecakach w grupie
+- sumowanie Priorities dla badge items grup
+
+- wczytuję 3 kolejne wiersze do rekordu tworżacego grupę
+- rekord z danymi grupy składa się z 3 pól Unbounded_String - wiersze
+  są różnej długości
+
+- iterowanie po znakach w Unbounded_String
+  - najmniejszy indeks znaku: 1 - zawsze?
+  - Length (...), Element (...)
+
+** DONE day 04 [2/2]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2022-12-08 Thu 19:06]
+   :END:
+   <2022-12-04 Sun>
+
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-08 Thu 19:06]
+    :END:
+
+Day 4: Camp Cleanup
+
+In how many assignment pairs does one range fully contain the other?
+
+- sections of the camp
+- section jest identyfikowana przez ID number
+- elf ma przypisane range of section IDs
+- elves pair
+- section assignments for each pairs
+- overlap
+
+- record tworzący parę
+- record tworzący zakres
+
+- deklaracja pakietu (generic) dla wczytywania liczb Section_Type
+  (Positive)
+
+- wczytywanie wartości całkowitych i pomijanie znaków
+  ograniczających - łatwe, bo format pliku wejściowego jest ustalony
+- kod odzwierciedla format pliu wejściowego - bez kombinowania i
+  komplikowania
+
+- warunek sprawdzjący czy range1 zawiera się w całości w range2 lub
+  odwrotnie
+
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-08 Thu 19:03]
+    :END:
+
+- In how many assignment pairs do the ranges overlap?
+
+- Liczba par, które chodzą na siebie, nie koniecznie w całości
+
+- Zmiana warunku wykrywającego nachodzące na siebie zakresy w parze
+
+- może zastosowanie zbiorów (Set) i liczenie części wspólnej id z
+  zakresów było by prostsze?
+
+** DONE day 05 [2/2]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2022-12-25 Sun 20:34]
+   :END:
+   <2022-12-05 Mon>
+
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-15 Thu 20:23]
+    :END:
+
+Day 5: Supply Stacks
+
+After the rearrangement procedure completes, what crate ends up on top
+of each stack?
+
+- stack
+- crates
+- rearange crates
+- crane (dźwig)
+- move
+- starting stacks of crates
+- rearrangement procedure
+- move one at a time
+- na końcu: jakie crate są na wierzchu stosów?
+
+- czytanie i parsowanie informacji o stosach skrzynek
+- stos: vector znaków (symboli crates) (Stack_Type)
+- heap: vector stosów (Heap_Type)
+
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-25 Sun 20:34]
+    :END:
+
+- instalacja ada_language_server + eglot
+
+- refaktoring:
+  - Parse_Heap()
+  - Parse_Moves()
+
+- Move_Crates2
+  - kopiuje elementy stosu w pętli
+  - usuwa skopiowane elementy stosu
+  - używanie Reference() dla modyfikowania elementu wektora
+
+Heap.Reference(M.To).Append (Heap.Element(M.From).Element(I));
+Heap.Reference(M.From).Delete_Last;
+
+- Użycie Reference dla uzyskania access type do elementu:
+-- Działa też taki sposób:
+-- declare
+--    Stack : access Stack_Type := Heap.Reference (Stack_Number).Element;
+-- begin
+--    Stack.Prepend (Crate);
+-- end;
+
+** DONE day 06 [2/2]
+   :LOGBOOK:
+   - State "DONE"       from "TODO"       [2022-12-28 Wed 23:18]
+   :END:
+   <2022-12-06 Tue>
+
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-27 Tue 23:35]
+    :END:
+
+Day 6: Tuning Trouble
+
+How many characters need to be processed before the first
+start-of-packet marker is detected?
+
+- device
+- communication system
+- malfunctioning device
+- lock on to their signal
+
+- signal: series of characters
+- datastream
+- detect start-of-packet marker:
+  - four characters that are all different
+- datastream buffer (input)
+
+- identify the first position where the four most recently received
+  characters were all different
+- report the number of characters from the beginning of the buffer to
+  the end of the first such four-character marker
+
+- packet marker
+
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2022-12-28 Wed 23:17]
+    :END:
+
+- start-of-packet marker
+- start-of-message marker
+
+- packet marker
+- message marker
+- process stream
+
+Detect_Marker (Buffer, Packet_Marker_Size, Detected, Position);
+Detect_Marker (Buffer, Message_Marker_Size, Detected, Position);
+
+- wczytanie danych wejściowych do bufora typu Unbounded_String
+- iterowanie po indeksach bufora i sprawdzanie czy slice jest markerem
+- slice (string) jest markerem jeśli wszystkie znaki są różna -
+  liczenie ile razy występują w stringu poszczególne znaki - jeśli
+  więcej niż 1, to nie jest markerem
+
+** DONE day 07 [2/3]
+   :LOGBOOK:
+   - State "DONE"       from "STARTED"    [2023-01-10 Tue 13:28]
+   - State "STARTED"    from "TODO"       [2023-01-01 Sun 12:49]
+   :END:
+   <2022-12-07 Wed>
+
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "STARTED"    [2023-01-05 Thu 22:17]
+    - State "STARTED"    from "TODO"       [2023-01-01 Sun 12:49]
+    :END:
+
+Day 7: No Space Left On Device
+
+Find all of the directories with a total size of at most 100000. What
+is the sum of the total sizes of those directories?
+
+
+- terminal output
+- tree of files and directories
+- file
+- directory
+- commands (zaczynają się od $)
+  - cd
+    - x
+    - ..
+    - /
+  - ls
+    - <size> <file>
+    - dir <directory>
+- current directory
+- total size of each directory -- suma plików w katalogu (i
+  podkatalogach)
+
+- find directories with a total size of at most 100000
+- total size
+- mogą się liczyć do sumy kilka razy: jako podkatalog i jako część
+  katalogu nadrzędnego
+
+- zsumować rozmiar katalogów o rozmiarze mniejszym lub równym 100000
+
+
+- Entry_Type przechowuje informacje o pliku lub katalogu
+- rekord z wariantami o różnych polach dla plików i katalogów
+- wektor - informacje o potomnych plikach i katalogach
+
+- Command_Type - informacje o poleceniu
+
+- 4 rodzaje wierszy na wejściu:
+  - polecenie cd
+  - polecenie ls
+  - info o katalogu
+  - info o pliku
+
+
+- sparsowanie danych wejściowych do rekurencyjnej struktury danych
+  (drzewo)
+- rekurencyjne przeszukiwanie drzewa
+
+**** Odczyt nie zainicjowanego parametru podprogramu w trybie out
+
+Przez pomyłkę zadeklarowałem parametr w trybie "out" zamiast "in out",
+a w funkcji ten parametr jest inkrementowany - *kompilator nie zgłosił
+warningu o odwołaniu się do nie zainicjowanej zmienej*!!!, i program
+działał błędnie - przy pierwszym odwołaniu do parametru pobierał
+śmieci i wartości zwracane przez program były różne przy każdym
+uruchomieniu.
+
+: function Dir_Size
+:   (Dir          : in Entry_Access_Type;
+:    Max_Dir_Size : in Natural;
+:    Total_Size   : out Natural) return Natural
+:    --             ^^^
+:    -- ...
+:    Total_Size := Total_Size + Result;
+:    --            ^^^^^^^^^^
+:    --            nie zainicjowana zmienna/parametr
+
+Dziwne, że przy domyślnych opcjach kompilator nie ostrzega o
+możliwości błędu. Szukałem opcji, które spowodują, że kompilator
+zgłosi warning o odwołaniu się do nie zainicjowanej zmiennej. Działają
+takie opcje:
+
+: -Wall -O2
+
+lub
+
+: -Wuninitialized -O2
+
+Wtedy jest zgłaszany warning:
+
+: gnatmake -f -Wall -O2 day07.adb
+: x86_64-linux-gnu-gcc-12 -c -Wall -O2 day07.adb
+: day07.adb:72:14: warning: procedure "Print_Command" is not referenced [-gnatwu]
+: day07.adb: In function ‘Day07.Dir_Size.Constprop’:
+: day07.adb:209:35: warning: ‘Total_Size’ may be used uninitialized [-Wmaybe-uninitialized]
+: --                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+: day07.adb:196:7: note: ‘Total_Size’ was declared here
+: x86_64-linux-gnu-gnatbind-12 -x day07.ali
+: x86_64-linux-gnu-gnatlink-12 day07.ali -O2
+
+Te opcje można użyć w następujący sposób:
+
+: gnatmake -Wall -O2 day07.adb
+: --       ^^^^^^^^^
+: gprbuild -cargs -Wall -O2 day07.adb
+: --       ^^^^^^^^^^^^^^^^
+
+Musi być dodana opcja -O2, bo bez niej warningi o dostępie do nie
+zainicjowanych zmiennych nie są zgłaszane.
+
+Opcje postaci -W<option>, np. -Wall, są opcjami *backendu*
+kompilatora. Wśród opcji frontendu (postaci: -gnat<option>, np.
+-gnatwa) nie znalazłem opcji włączających warningi o niezainicjowanych
+zmiennych.
+
+*Opcje włączające większość warningów*:
+-gnatwa       -- warningi frontendu
+-Wall -O2     -- warningi backendu
+
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2023-01-10 Tue 13:28]
+    :END:
+
+Find the smallest directory that, if deleted, would free up enough
+space on the filesystem to run the update. What is the total size of
+that directory?
+
+- choose a directory to delete
+- total disk space:   70000000
+- minimum free space: 30000000  (for upgrade)
+- unused space
+- free space
+
+- Search_Delete_Dir (Root, Min_Delete_Size, Delete_Size);
+
+- na próbę zrobiłem też dealokację drzewa
+  - Entry_Deallocate
+  - Dir_Dealocate
+
+*** STARTED Import repository to github
+    :LOGBOOK:
+    - State "STARTED"    from "TODO"       [2023-01-10 Tue 14:40]
+    :END:
+
+https://docs.github.com/en/get-started/importing-your-projects-to-github/importing-source-code-to-github/importing-a-git-repository-using-the-command-line
+
+: adbr@kwarc:~/.../aoc-2022$ git push --mirror https://github.com/adbr/aoc-2022.git
+: using gpg for GPG operations
+: Using GPG to open /home/adbr/.netrc.gpg: [gpg --decrypt /home/adbr/.netrc.gpg]
+: gpg: encrypted with 4096-bit RSA key, ID 7AAC2F65CD62E2AE, created 2018-02-07
+:       "Adam Bryt (2018) <adam.bryt@gmx.com>"
+: remote: Support for password authentication was removed on August 13, 2021.
+: remote: Please see https://docs.github.com/en/get-started/getting-started-with-git/about-remote-repositories#cloning-with-https-urls for information on currently recommended modes of authentication.
+: fatal: Authentication failed for 'https://github.com/adbr/aoc-2022.git/'
+
+Dodanie publicznego klucza SSH
+
+: adbr@kwarc:~/.../aoc-2022$ git push --mirror git@github.com:adbr/aoc-2022.git
+: Enumerating objects: 158, done.
+: Counting objects: 100% (158/158), done.
+: Delta compression using up to 4 threads
+: Compressing objects: 100% (89/89), done.
+: Writing objects: 100% (158/158), 54.64 KiB | 54.64 MiB/s, done.
+: Total 158 (delta 62), reused 158 (delta 62), pack-reused 0
+: remote: Resolving deltas: 100% (62/62), done.
+: remote: 
+: remote: Create a pull request for 'master' on GitHub by visiting:
+: remote:      https://github.com/adbr/aoc-2022/pull/new/master
+: remote: 
+: To github.com:adbr/aoc-2022.git
+:  * [new branch]      master -> master
+:  ! [remote rejected] main (refusing to delete the current branch: refs/heads/main)
+: error: failed to push some refs to 'github.com:adbr/aoc-2022.git'
+
+Bez --mirror
+
+: adbr@kwarc:~/.../aoc-2022$ git push git@github.com:adbr/aoc-2022.git
+: fatal: The current branch master has no upstream branch.
+: To push the current branch and set the remote as upstream, use
+: 
+:     git push --set-upstream git@github.com:adbr/aoc-2022.git master
+: 
+: To have this happen automatically for branches without a tracking
+: upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+Jak wyżej:
+
+: adbr@kwarc:~/.../aoc-2022$ git push --set-upstream git@github.com:adbr/aoc-2022.git master
+: branch 'master' set up to track 'git@github.com:adbr/aoc-2022.git/master'.
+: Everything up-to-date
+
+** TODO day 08 [0/2]
+   <2022-12-08 Thu>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 09 [0/2]
+   <2022-12-09 Fri>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 10 [0/2]
+   <2022-12-10 Sat>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 11 [0/2]
+   <2022-12-11 Sun>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 12 [0/2]
+   <2022-12-12 Mon>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 13 [0/2]
+   <2022-12-13 Tue>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 14 [0/2]
+   <2022-12-14 Wed>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 15 [0/2]
+   <2022-12-15 Thu>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 16 [0/2]
+   <2022-12-16 Fri>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 17 [0/2]
+   <2022-12-17 Sat>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 18 [0/2]
+   <2022-12-18 Sun>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 19 [0/2]
+   <2022-12-19 Mon>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 20 [0/2]
+   <2022-12-20 Tue>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 21 [0/2]
+   <2022-12-21 Wed>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 22 [0/2]
+   <2022-12-22 Thu>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 23 [0/2]
+   <2022-12-23 Fri>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 24 [0/2]
+   <2022-12-24 Sat>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
+
+** TODO day 25 [0/2]
+   <2022-12-25 Sun>
+
+*** TODO puzzle 1
+
+*** TODO puzzle 2
