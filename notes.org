@@ -357,7 +357,7 @@ Detect_Marker (Buffer, Message_Marker_Size, Detected, Position);
   liczenie ile razy występują w stringu poszczególne znaki - jeśli
   więcej niż 1, to nie jest markerem
 
-** DONE day 07 [2/3]
+** DONE day 07 [3/3]
    :LOGBOOK:
    - State "DONE"       from "STARTED"    [2023-01-10 Tue 13:28]
    - State "STARTED"    from "TODO"       [2023-01-01 Sun 12:49]
@@ -499,8 +499,9 @@ that directory?
   - Entry_Deallocate
   - Dir_Dealocate
 
-*** STARTED Import repository to github
+*** DONE Import repository to github
     :LOGBOOK:
+    - State "DONE"       from "STARTED"    [2023-01-11 Wed 09:44]
     - State "STARTED"    from "TODO"       [2023-01-10 Tue 14:40]
     :END:
 
@@ -550,6 +551,12 @@ Jak wyżej:
 : adbr@kwarc:~/.../aoc-2022$ git push --set-upstream git@github.com:adbr/aoc-2022.git master
 : branch 'master' set up to track 'git@github.com:adbr/aoc-2022.git/master'.
 : Everything up-to-date
+
+Zrobiłem import najprostszym sposobem:
+- utworzyłem na stronie githuba projekt
+- git clone
+- skopiowałem pliki
+- commit, push
 
 ** TODO day 08 [0/2]
    <2022-12-08 Thu>
