@@ -102,12 +102,14 @@ procedure Day08 is
          for C in Grid'First (2) .. Col - 1 loop
             if Grid (Row, C) >= Grid (Row, Col) then
                Visible_Left := False;
+               exit;
             end if;
          end loop;
          
          for C in Col + 1 .. Grid'Last (2) loop
             if Grid (Row, C) >= Grid (Row, Col) then
                Visible_Right := False;
+               exit;
             end if;
          end loop;
          
@@ -129,12 +131,14 @@ procedure Day08 is
          for R in Grid'First (1) .. Row - 1 loop
             if Grid (R, Col) >= Grid (Row, Col) then
                Visible_Up := False;
+               exit;
             end if;
          end loop;
          
          for R in Row + 1 .. Grid'Last (1) loop
             if Grid (R, Col) >= Grid (Row, Col) then
                Visible_Down := False;
+               exit;
             end if;
          end loop;
          
@@ -152,7 +156,7 @@ procedure Day08 is
    
    procedure Part1 (Filename : String) is
       Grid    : constant Grid_Type := Read_Data (Filename);
-      Visible : Natural   := 0;
+      Visible : Natural            := 0;
    begin
       for R in Grid'Range (1) loop
          for C in Grid'Range (2) loop
