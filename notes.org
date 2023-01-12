@@ -558,10 +558,32 @@ Zrobiłem import najprostszym sposobem:
 - skopiowałem pliki
 - commit, push
 
-** TODO day 08 [0/2]
+** STARTED day 08 [1/2]
+   :LOGBOOK:
+   - State "STARTED"    from "TODO"       [2023-01-12 Thu 14:24]
+   :END:
    <2022-12-08 Thu>
 
-*** TODO puzzle 1
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2023-01-12 Thu 14:24]
+    :END:
+
+Day 8: Treetop Tree House
+
+Consider your map; how many trees are visible from outside the grid?
+
+
+- grid of trees
+- location for a tree house
+- hidden
+- count the number of trees that are visible from outside the grid
+  when looking directly along a row or column
+- trees visible from outside the grid
+- map: height of each tree (0 .. 9)
+- visible: drzewa są mniejsze - do krawędzi w poziomie i pionie
+- drzewa na krawędzi (edge) są widoczne (visible)
+- interior trees
 
 *** TODO puzzle 2
 
