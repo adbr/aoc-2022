@@ -154,9 +154,8 @@ procedure Day08 is
    -- Part1 --
    -----------
    
-   procedure Part1 (Filename : String) is
-      Grid    : constant Grid_Type := Read_Data (Filename);
-      Visible : Natural            := 0;
+   procedure Part1 (Grid : in Grid_Type) is
+      Visible : Natural := 0;
    begin
       for R in Grid'Range (1) loop
          for C in Grid'Range (2) loop
@@ -166,8 +165,112 @@ procedure Day08 is
          end loop;
       end loop;
       Put_Line ("Part 1: number of visible trees:" & Visible'Image);
-      -- Put_Line ("Grid:" & Grid'Image);
    end Part1;
+
+   ---------------------------
+   -- Viewing_Distance_Left --
+   ---------------------------
+   
+   function Viewing_Distance_Left
+     (Grid : Grid_Type;
+      Row  : Positive;
+      Col  : Positive) return Natural
+   is
+      Distance : Natural := 0;
+   begin
+      for C in reverse Grid'First (2) .. Col - 1 loop
+         Distance := Distance + 1;
+         if Grid (Row, C) >= Grid (Row, Col) then
+            exit;
+         end if;
+      end loop;
+      return Distance;
+   end Viewing_Distance_Left;
+
+   ---------------------------
+   -- Viewing_Distance_Right --
+   ---------------------------
+   
+   function Viewing_Distance_Right
+     (Grid : Grid_Type;
+      Row  : Positive;
+      Col  : Positive) return Natural
+   is
+      Distance : Natural := 0;
+   begin
+      for C in Col + 1 .. Grid'Last (2) loop
+         Distance := Distance + 1;
+         if Grid (Row, C) >= Grid (Row, Col) then
+            exit;
+         end if;
+      end loop;
+      return Distance;
+   end Viewing_Distance_Right;
+
+   ---------------------------
+   -- Viewing_Distance_Up --
+   ---------------------------
+   
+   function Viewing_Distance_Up
+     (Grid : Grid_Type;
+      Row  : Positive;
+      Col  : Positive) return Natural
+   is
+      Distance : Natural := 0;
+   begin
+      for R in reverse Grid'First (1) .. Row - 1 loop
+         Distance := Distance + 1;
+         if Grid (R, Col) >= Grid (Row, Col) then
+            exit;
+         end if;
+      end loop;
+      return Distance;
+   end Viewing_Distance_Up;
+
+   ---------------------------
+   -- Viewing_Distance_Down --
+   ---------------------------
+   
+   function Viewing_Distance_Down
+     (Grid : Grid_Type;
+      Row  : Positive;
+      Col  : Positive) return Natural
+   is
+      Distance : Natural := 0;
+   begin
+      for R in Row + 1 .. Grid'Last (1) loop
+         Distance := Distance + 1;
+         if Grid (R, Col) >= Grid (Row, Col) then
+            exit;
+         end if;
+      end loop;
+      return Distance;
+   end Viewing_Distance_Down;
+
+   -----------
+   -- Part2 --
+   -----------
+   
+   procedure Part2 (Grid : in Grid_Type) is
+      Max_Scenic_Score : Natural := 0;
+   begin
+      for R in Grid'Range (1) loop
+         for C in Grid'Range (2) loop
+            declare
+               Scenic_Score : Natural;
+            begin
+               Scenic_Score := Viewing_Distance_Left (Grid, R, C) *
+                 Viewing_Distance_Right (Grid, R, C) *
+                 Viewing_Distance_Up (Grid, R, C) *
+                 Viewing_Distance_Down (Grid, R, C);
+               if Scenic_Score > Max_Scenic_Score then
+                  Max_Scenic_Score := Scenic_Score;
+               end if;
+            end;
+         end loop;
+      end loop;
+      Put_Line ("Part 2: highest scenic score:" & Max_Scenic_Score'Image);
+   end Part2;
    
 begin
    if Argument_Count /= 1 then
@@ -176,8 +279,14 @@ begin
       return;
    end if;
    
-   Part1 (Argument (1));
+   declare
+      Grid : constant Grid_Type := Read_Data (Argument (1));
+   begin
+      Part1 (Grid);
+      Part2 (Grid);
+   end;
 end Day08;
 
 -- ./bin/day08 input.txt 
 -- Part 1: number of visible trees: 1715
+-- Part 2: highest scenic score: 374400

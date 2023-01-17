@@ -2,7 +2,7 @@
 
 https://adventofcode.com/2022
 
-* STARTED aoc 2022 [7/25]
+* STARTED aoc 2022 [8/25]
   SCHEDULED: <2022-12-01 Thu>
   :PROPERTIES:
   :CATEGORY: aoc2022
@@ -558,8 +558,9 @@ Zrobiłem import najprostszym sposobem:
 - skopiowałem pliki
 - commit, push
 
-** STARTED day 08 [1/2]
+** DONE day 08 [2/2]
    :LOGBOOK:
+   - State "DONE"       from "STARTED"    [2023-01-17 Tue 14:35]
    - State "STARTED"    from "TODO"       [2023-01-12 Thu 14:24]
    :END:
    <2022-12-08 Thu>
@@ -574,6 +575,8 @@ Day 8: Treetop Tree House
 Consider your map; how many trees are visible from outside the grid?
 
 
+- wczytywanie danych do tablicy dwuwymiarowej, której wymiary są
+  określane dynamicznie
 - grid of trees
 - location for a tree house
 - hidden
@@ -585,7 +588,20 @@ Consider your map; how many trees are visible from outside the grid?
 - drzewa na krawędzi (edge) są widoczne (visible)
 - interior trees
 
-*** TODO puzzle 2
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "TODO"       [2023-01-17 Tue 14:35]
+    :END:
+
+- best spot (najlepsze miejsce)
+- lot of trees
+- *viewing distance*
+- first tree that is the same height or taller than the tree under
+  consideration
+- *scenic score* - pomnożone viewing distances z 4 kierunków
+
+- Consider each tree on your map. What is the highest scenic score
+  possible for any tree?
 
 ** TODO day 09 [0/2]
    <2022-12-09 Fri>
