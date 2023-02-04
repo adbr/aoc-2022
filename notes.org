@@ -603,10 +603,44 @@ Consider your map; how many trees are visible from outside the grid?
 - Consider each tree on your map. What is the highest scenic score
   possible for any tree?
 
-** TODO day 09 [0/2]
+** STARTED day 09 [0/2]
+   :LOGBOOK:
+   - State "STARTED"    from "TODO"       [2023-01-18 Wed 11:08]
+   :END:
    <2022-12-09 Fri>
 
-*** TODO puzzle 1
+Day 9: Rope Bridge
+
+*** STARTED puzzle 1
+    :LOGBOOK:
+    - State "STARTED"    from "TODO"       [2023-01-18 Wed 13:50]
+    :END:
+
+Simulate your complete hypothetical series of motions. How many
+positions does the tail of the rope visit at least once?
+
+- rope physics
+- knots on ends
+  - head (H)
+  - tail (T)
+- model on two-dimensional grid
+- series of motions (for the head) -> move of tail
+- head and tail must always be touching
+- start: H i T overlapping
+- motions (moves)
+- positions the tail visited at least once
+
+- dane wejściowe są parsowane i czytane do wektora wartości Move_Type
+  - Move_Type
+  - Move_Vector
+- pozycje odwiedzane przez Tail są zapamiętywane w hash mapie
+  Position_Map
+  - Position_Type
+  - Position_Map
+  - kluczem jest Position_Type
+  - elementem jest liczba typy Positive - zawiera liczbę, licznik ile razy
+    tail był na danej pozycji - licznik nie jest potrzebny, ale prawie
+    nic nie kosztuje, więc dodałem
 
 *** TODO puzzle 2
 
