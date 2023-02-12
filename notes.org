@@ -2,7 +2,7 @@
 
 https://adventofcode.com/2022
 
-* STARTED aoc 2022 [8/25]
+* STARTED AoC 2022 [9/25]
   SCHEDULED: <2022-12-01 Thu>
   :PROPERTIES:
   :CATEGORY: aoc2022
@@ -603,16 +603,18 @@ Consider your map; how many trees are visible from outside the grid?
 - Consider each tree on your map. What is the highest scenic score
   possible for any tree?
 
-** STARTED day 09 [0/2]
+** DONE day 09 [2/2]
    :LOGBOOK:
+   - State "DONE"       from "STARTED"    [2023-02-12 Sun 15:43]
    - State "STARTED"    from "TODO"       [2023-01-18 Wed 11:08]
    :END:
    <2022-12-09 Fri>
 
 Day 9: Rope Bridge
 
-*** STARTED puzzle 1
+*** DONE puzzle 1
     :LOGBOOK:
+    - State "DONE"       from "STARTED"    [2023-02-05 Sun 20:17]
     - State "STARTED"    from "TODO"       [2023-01-18 Wed 13:50]
     :END:
 
@@ -642,7 +644,26 @@ positions does the tail of the rope visit at least once?
     tail był na danej pozycji - licznik nie jest potrzebny, ale prawie
     nic nie kosztuje, więc dodałem
 
-*** TODO puzzle 2
+*** DONE puzzle 2
+    :LOGBOOK:
+    - State "DONE"       from "STARTED"    [2023-02-12 Sun 15:42]
+    - State "STARTED"    from "TODO"       [2023-02-05 Sun 20:19]
+    :END:
+
+Simulate your complete series of motions on a larger rope with ten
+knots. How many positions does the tail of the rope visit at least
+once?
+
+- rope: ten knots (10 węzłów)
+  - array?
+- one knot is head
+  - array(1)
+- head przesuwa się według moves
+- pozostałe węzły przesywają się według poprzednich reguł
+  - slice dwóch sąsiednich węzłów?
+
+- liczenie przesunięcia Tail względem Head - o jeden krok w każdym
+  kierunku
 
 ** TODO day 10 [0/2]
    <2022-12-10 Sat>

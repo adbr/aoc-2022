@@ -34,14 +34,8 @@ procedure Day09 is
          X : Integer;
          Y : Integer;
       end record;
-
-   type Rope_Type is
-      record
-         Head : Position_Type;
-         Tail : Position_Type;
-      end record;
    
-   -- Position_Map type:
+   -- Type: Position_Map
    
    function Hash (Key : Position_Type) return Hash_Type is
    begin
@@ -60,16 +54,34 @@ procedure Day09 is
       Equivalent_Keys => Equivalent_Keys);
    subtype Position_Map is Position_Maps.Map;
 
-   -----------------
-   -- Print_Moves --
-   -----------------
+   ------------------
+   -- Add_Position --
+   ------------------
 
-   procedure Print_Moves (Moves : in Move_Vector) is
+   procedure Add_Position
+     (Positions : in out Position_Map;
+      P         : in Position_Type)
+   is
    begin
-      for M of Moves loop
-         Put_Line ("[" & M.Direction'Image & " =>" & M.Steps'Image & "]");
-      end loop;
-   end Print_Moves;
+      if Positions.Contains (P) then
+         declare
+            N : Positive := Positions.Element (P) + 1;
+         begin
+            Positions.Replace (P, N);
+         end;
+      else
+         Positions.Insert (P, 1);
+      end if;
+   end Add_Position;
+
+   ------------------
+   -- Are_Touching --
+   ------------------
+
+   function Are_Touching (P1, P2 : Position_Type) return Boolean is
+   begin
+      return abs (P1.X - P2.X) < 2 and abs (P1.Y - P2.Y) < 2;
+   end Are_Touching;
 
    -----------
    -- Part1 --
@@ -77,14 +89,11 @@ procedure Day09 is
 
    procedure Part1 (Moves : in Move_Vector) is
 
-      ------------------
-      -- Are_Touching --
-      ------------------
-
-      function Are_Touching (P1, P2 : Position_Type) return Boolean is
-      begin
-         return abs (P1.X - P2.X) < 2 and abs (P1.Y - P2.Y) < 2;
-      end Are_Touching;
+      type Rope_Type is
+         record
+            Head : Position_Type;
+            Tail : Position_Type;
+         end record;
 
       ---------------
       -- Move_Rope --
@@ -111,42 +120,114 @@ procedure Day09 is
          end if;
       end Move_Rope;
 
-      ------------------
-      -- Add_Position --
-      ------------------
-
-      procedure Add_Position
-        (Positions : in out Position_Map;
-         P  : Position_Type)
-      is
-      begin
-         if Positions.Contains (P) then
-            declare
-               N : Positive := Positions.Element (P) + 1;
-            begin
-               Positions.Replace (P, N);
-            end;
-         else
-            Positions.Insert (P, 1);
-         end if;
-      end Add_Position;
-
       -- Local variables
 
-      Rope : Rope_Type := (Head => (1, 1), Tail => (1, 1));
-      Positions : Position_Map;  -- Tail positions
+      Rope           : Rope_Type := (Head => (1, 1), Tail => (1, 1));
+      Tail_Positions : Position_Map;
 
    begin
-      Add_Position (Positions, Rope.Tail);
+      Add_Position (Tail_Positions, Rope.Tail);
       for M of Moves loop
          for S in 1 .. M.Steps loop
             Move_Rope (Rope, M.Direction);
-            Add_Position (Positions, Rope.Tail);
+            Add_Position (Tail_Positions, Rope.Tail);
          end loop;
       end loop;
       Put_Line ("Part 1: Tail positions wisited at least once:" &
-                  Positions.Length'Image);
+                  Tail_Positions.Length'Image);
    end Part1;
+
+   -----------
+   -- Part2 --
+   -----------
+
+   procedure Part2 (Moves : in Move_Vector) is
+      
+      subtype Knot_Number is Positive range 1 .. 10;
+      type Rope_Type is array (Knot_Number) of Position_Type;
+      
+      ---------------
+      -- Move_Rope --
+      ---------------
+
+      procedure Move_Rope
+        (Rope      : in out Rope_Type;
+         Direction : in Direction_Type)
+      is
+         
+         ---------------
+         -- Move_Tail --
+         ---------------
+
+         procedure Move_Tail
+           (Head : in Position_Type;
+            Tail : in out Position_Type)
+         is
+            Offset : Position_Type;
+         begin
+            if Are_Touching (Head, Tail) then
+               return;
+            end if;
+            
+            Offset.X := Head.X - Tail.X;
+            Offset.Y := Head.Y - Tail.Y;
+            
+            if Offset.X > 1 then
+               Offset.X := 1;
+            end if;
+            if Offset.X < -1 then
+               Offset.X := -1;
+            end if;
+            if Offset.Y > 1 then
+               Offset.Y := 1;
+            end if;
+            if Offset.Y < -1 then
+               Offset.Y := -1;
+            end if;
+            
+            Tail.X := Tail.X + Offset.X;
+            Tail.Y := Tail.Y + Offset.Y;
+         end Move_Tail;
+         
+      begin
+         
+         -- Move head
+         
+         case Direction is
+            when Left =>
+               Rope (Rope'First).X := Rope (Rope'First).X - 1;
+            when Right =>
+               Rope (Rope'First).X := Rope (Rope'First).X + 1;
+            when Up =>
+               Rope (Rope'First).Y := Rope (Rope'First).Y + 1;
+            when Down =>
+               Rope (Rope'First).Y := Rope (Rope'First).Y - 1;
+         end case;
+         
+         -- Move remaining knots
+         
+         for I in Rope'First + 1 .. Rope'Last loop
+            Move_Tail (Head => Rope (I - 1), Tail => Rope (I));
+         end loop;
+
+      end Move_Rope;
+
+      -- Local variables
+      
+      Rope           : Rope_Type := (others => (1,1));
+      Tail_Positions : Position_Map;
+
+   begin
+      Add_Position (Tail_Positions, Rope (Rope'Last));
+      for M of Moves loop
+         for S in 1 .. M.Steps loop
+            Move_Rope (Rope, M.Direction);
+            Add_Position (Tail_Positions, Rope (Rope'Last));
+         end loop;
+      end loop;
+      Put_Line ("Part 2: Tail positions wisited at least once:" &
+                  Tail_Positions.Length'Image);
+   end Part2;
 
    ---------------
    -- Read_Data --
@@ -195,8 +276,10 @@ begin
    begin
       Read_Data (Filename, Moves);
       Part1 (Moves);
+      Part2 (Moves);
    end;
 end Day09;
 
 -- ./bin/day09 input.txt 
 -- Part 1: Tail positions wisited at least once: 6384
+-- Part 2: Tail positions wisited at least once: 2734
