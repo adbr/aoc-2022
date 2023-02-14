@@ -38,21 +38,22 @@ procedure Day10 is
          Value : Integer;
       end record;
    
-   Signal_Strengths : array (Positive range <>) of Signal_Strength_Type :=
-     ((Cycle =>  20, Value => 0),
-      (Cycle =>  60, Value => 0),
-      (Cycle => 100, Value => 0),
-      (Cycle => 140, Value => 0),
-      (Cycle => 180, Value => 0),
-      (Cycle => 220, Value => 0));
-   
    -----------
    -- Part1 --
    -----------
    
    procedure Part1 (Instructions : Instruction_Vector) is
+   
       Cycles    : Natural := 0;
       RegisterX : Integer := 1;
+      
+      Signal_Strengths : array (Positive range <>) of Signal_Strength_Type :=
+        ((Cycle =>  20, Value => 0),
+         (Cycle =>  60, Value => 0),
+         (Cycle => 100, Value => 0),
+         (Cycle => 140, Value => 0),
+         (Cycle => 180, Value => 0),
+         (Cycle => 220, Value => 0));
       
       ----------------------------
       -- Update_Signal_Strength --
