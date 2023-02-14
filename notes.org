@@ -665,10 +665,49 @@ once?
 - liczenie przesunięcia Tail względem Head - o jeden krok w każdym
   kierunku
 
-** TODO day 10 [0/2]
+** STARTED day 10 [1/2]
+   :LOGBOOK:
+   - State "STARTED"    from "TODO"       [2023-02-12 Sun 18:44]
+   :END:
    <2022-12-10 Sat>
 
-*** TODO puzzle 1
+Day 10: Cathode-Ray Tube
+
+*** DONE puzzle 1
+    :LOGBOOK:
+    - State "DONE"       from "STARTED"    [2023-02-14 Tue 16:01]
+    - State "STARTED"    from "TODO"       [2023-02-12 Sun 18:45]
+    :END:
+
+Find the signal strength during the 20th, 60th, 100th, 140th, 180th,
+and 220th cycles. What is the sum of these six signal strengths?
+
+- device's video system
+- cathode-ray tube screen and simple CPU
+- clock circuit
+- cycle
+  - each tick is called a cycle
+- X register
+  - single register, X
+  - starts with the value 1
+- instructions
+  - addx V
+    - two cycles
+    - increment X by the value of V
+  - noop
+    - one cycle
+
+- input data: vector of variand records
+  - instrukcja jest rekordem z wariantami
+  - nie można zastosować Ada.Consider.Vectors poniewać rekord z
+    wariantami ma zmienny rozmiar zależny od wariantu
+  - trzeba zastosować Ada.Containers.Indefinite_Vectors
+- licznik cykli
+- stan rejestru
+- tablica z wartościami signal strength
+  - tablica liczników, rekordów
+  - wartości (rekordy) zawierają wartości progów cykli dla których ma
+    być liczona siła sygnału
 
 *** TODO puzzle 2
 
