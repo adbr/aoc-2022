@@ -68,6 +68,8 @@ procedure Day10 is
          end loop;
       end Update_Signal_Strength;
       
+   --  Start of processing for Part1
+
    begin
       for I of Instructions loop
          case I.Kind is
@@ -140,13 +142,14 @@ begin
       CL.Set_Exit_Status (CL.Failure);
       return;
    end if;
-   
+
    declare
       Filename     : String := CL.Argument (1);
       Instructions : Instruction_Vector;
    begin
       Read_Data (Filename, Instructions);
       Part1 (Instructions);
+      Part2 (Instructions);
    end;
 end Day10;
 

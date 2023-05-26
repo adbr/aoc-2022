@@ -2,12 +2,13 @@
 
 https://adventofcode.com/2022
 
-* STARTED AoC 2022 [9/25]
+* DONE AoC 2022 [9/25]
   SCHEDULED: <2022-12-01 Thu>
   :PROPERTIES:
   :CATEGORY: aoc2022
   :END:
   :LOGBOOK:
+  - State "DONE"       from "STARTED"    [2023-05-26 Fri 18:51]
   - State "STARTED"    from "TODO"       [2022-12-01 Thu 22:56]
   :END:
 
